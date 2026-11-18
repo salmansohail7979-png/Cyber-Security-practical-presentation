@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Student portal | Grade privacy</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf3ef;color:#172e2b;font:1.05rem/1.55 system-ui,sans-serif}main{max-width:760px;margin:7vh auto;padding:clamp(18px,5vw,48px);background:white;border-top:6px solid #20766a}h1{font: bold 2.6rem Georgia,serif;margin:.4em 0}nav{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0}button{padding:10px 14px;font:inherit;border:1px solid #738d87;background:white;color:inherit;border-radius:5px;cursor:pointer}button[aria-pressed=true]{background:#164c45;color:white}table{width:100%;border-collapse:collapse}td,th{text-align:left;border-bottom:1px solid #cad8d2;padding:10px}code{overflow-wrap:anywhere}small{color:#42645c}
+</style>
+<main><small>Cybersecurity classroom simulation</small><h1>Student grade portal</h1><p>Signed in as <strong>Salman</strong> · BSCS · Cybersecurity</p>
+<nav aria-label="Demo stages"><button aria-pressed="true">Normal view</button><button aria-pressed="false">Simulated exposure</button><button aria-pressed="false">Protected view</button></nav>
+<section aria-live="polite"><h2 id="heading">My grades</h2><table><thead><tr><th>Student</th><th>Grade</th></tr></thead><tbody><tr><td>Salman</td><td>B+</td></tr><tr hidden><td>Bilal</td><td>A</td></tr><tr hidden><td>Waheed</td><td>B</td></tr></tbody></table>
+<p id="note">Salman is allowed to read her own grade.</p><p id="query" hidden>Server-side query pattern<br><code>SELECT grade FROM grades WHERE student_id = ?</code><br>The server binds the signed-in student's ID to the placeholder.</p></section></main>
+<script>
+const buttons = document.querySelectorAll('button');
+const titles = ['My grades', 'Simulated SQL injection outcome', 'Protected result'];
+const notes = ['Salman is allowed to read her own grade.', 'Two classmates’ grades are visible to Salman. This illustrates a loss of confidentiality.', 'Only Salman’s grade appears. Run verify.py to see the scoped query execute in SQLite.'];
+buttons.forEach((button, index) => button.addEventListener('click', () => {
+  buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  document.querySelectorAll('tbody tr').forEach((row, i) => { row.hidden = i > 0 && index !== 1; });
+  document.querySelector('#heading').textContent = titles[index];
+  document.querySelector('#note').textContent = notes[index];
+  document.querySelector('#query').hidden = index !== 2;
+}));
+</script></html>
